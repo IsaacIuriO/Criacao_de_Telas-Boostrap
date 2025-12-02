@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+    <head>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Cadastro</title>
+
+        <!-- Bootstrap -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+
+    </head>
+
+    <style>
+
+    *{
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        box-sizing: border-box;
+        font-family: "Nunito", sans-serif;
+    }
+
+    html, body{
+        width: 100%;
+        height: 100%;
+        background: #f3f4f4;
+    }
+
+    
+    .header{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+
+        position: absolute;
+        top: 10%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .container_main{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: #f3f4f4;
+    }
+
+    .menu{
+        display: flex;
+        justify-content: center;
+    }
+
+    .mb{ margin: 0 20px 10px 20px; }
+
+    button{ padding: 5px 15px 5px 15px; }
+
+    h1, h2{
+            text-align: center;
+            margin: 15px;
+            font-weight: 700;
+    }
+
+    input, textarea{ width: 100%; }
+
+    .mb-3{
+        display: flex;
+        justify-content: space-between;
+    }
+
+    #descricao{ height: 80px; }
+
+    @media screen and (max-width: 844px){
+        .header h2{
+            margin-top: 80px;
+        }
+
+        .menu{
+            flex-direction: column;
+        }
+
+        .container_cadastro{
+            position: absolute;
+            top: 62%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+    }
+
+    </style>
+
+    <body>
+        
+        <header class="header">
+            
+            <h2>Menu</h2>
+            
+            <div class="menu">
+                
+                <form action="/main" method="get">
+                    <div class="mb">
+                        <button type="submit" name="irMain" class="btn btn-lg btn-outline-dark">Dashboard</button>
+                    </div>
+                </form>
+                
+                <form action="/cadastro" method="get">
+                    <div class="mb">
+                        <button type="submit" name="irCadastro" class="btn btn-lg btn-outline-dark">Cadastro</button>
+                    </div>
+                </form>
+                
+                <form action="/estoque" method="get">
+                    <div class="mb">
+                        <button type="submit" name="irEstoque" class="btn btn-lg btn-outline-dark">Estoque</button>
+                    </div>
+                </form>
+                
+            </div>
+            
+            
+        </header>
+        
+        <div class="container_cadastro">
+
+            <main class="main">
+
+                <h1>Cadastro de Produtos</h1>
+
+                <form action="/cadastrar" method="post">
+
+                    <div class="mb-2">
+                        <label for="">Nome do Produto</label>
+                        <input name="nome" type="text">
+                    </div>
+    
+                    <div class="mb-2">
+                        <label for="">Categoria</label>
+                        <input name="categoria" type="text">
+                    </div>
+
+                    <div class="mb-2">
+                        <label for="">Código ou SKU</label>
+                        <input name="codigo" type="text">
+                    </div>
+    
+                    <div class="mb-2">
+                        <label for="">Quantidade Inicial</label>
+                        <input name="quant" type="number">
+                    </div>
+    
+                    <div class="mb-2">
+                        <label for="">Preço</label>
+                        <input name="preco" type="text" placeholder="R$">
+                    </div>
+    
+                    <div class="mb-2">
+                        <label for="">Descrição</label>
+                        <textarea id="descricao" name="descricao"></textarea>
+                    </div>
+    
+                    <div class="mb-3">
+                        <button type="submit" name="cadastrar" class="btn btn-primary btn-lg">Cadastrar</button>
+                        <button type="button" class="btn btn-primary btn-lg" onclick="window.location.reload()">Limpar</button>
+                    </div>
+
+                </form>
+
+            </main>
+
+            <script>
+                const form = document.querySelector("form");
+
+                form.addEventListener("submit", async(event) =>{
+                    event.preventDefaullt();
+
+                    const formData = new FormData(form);
+
+                    const response = await fetch("/cadastrar", {
+                        method:"POST",
+                        headers: { "Content-type": "application/json "},
+                        body: JSON.stringify(dados)
+                    });
+
+                    const json = await response.json();
+                    console.log(json);
+
+                    if (response.status === 200) {
+                        alert("Produto cadastrado com sucesso!")
+                    } else {
+                        alert("Erro ao cadastrar!")
+                    }
+                });
+
+            </script>
+    </body>
+
+</html>
